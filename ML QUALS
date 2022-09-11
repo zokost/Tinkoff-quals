@@ -2,14 +2,17 @@ import re
 import pickle
 import numpy as np
 import random
-text = open(str(input("Введите путь к файлу с текстом")))
+try:
+    text = open(str(input("Введите путь к файлу с текстом ")))
+except:
+    print("Указан неверный путь к файлу")
 #C:/Users/Konstantin/Desktop/edgar_po.txt
 text = text.read()
 text = text.lower()
 format_text = re.sub(r'[^\w\s]','', text) 
 format_text = format_text.split()
 word_dict = {}
-for i in range(0, len(opt) - 1):
+for i in range(0, len(format_text) - 1):
     if format_text[i] != format_text[i + 1]:
         if format_text[i] not in word_dict:
             word_dict[format_text[i]] = [format_text[i + 1]]
@@ -17,19 +20,29 @@ for i in range(0, len(opt) - 1):
         else:
             word_dict[format_text[i]].append(format_text[i + 1])
 a = str(input("Введите первое слово "))
-length = int(input("Введите длину текста "))
+try:
+    length = int(input("Введите длину текста "))
+except:
+    print("Нужно ввести число")
 out_text=a + " "
-for i in range (length-1):  
-    last_word = np.random.choice(word_dict[a])
-    if (i==length-2):
-        out_text = out_text + last_word
-    else:
-        out_text = out_text + last_word + " "
-    a=last_word
+try: 
+    for i in range (length-1):  
+        last_word = np.random.choice(word_dict[a])
+        if (i==length-2):
+            out_text = out_text + last_word
+        else:
+            out_text = out_text + last_word + " "
+        a=last_word
+except:
+    print("Попробуйте другое слово")
+    
 out_text+="."
 out_text = out_text[0].upper() + out_text[1:]
 
-print(out_text)
+if (length!=1 & len(out_text)==1):
+    print("")
+else:
+    print(out_text)
     
 
 
